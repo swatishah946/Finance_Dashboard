@@ -3,26 +3,19 @@
   "version": "1.0.0",
   "description": "Finance dashboard backend with role-based access control",
   "main": "src/server.js",
+  "type": "module",
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "jest --detectOpenHandles --forceExit",
-    "test:watch": "jest --watch"
+    "test": "node --experimental-vm-modules node_modules/.bin/jest --detectOpenHandles --forceExit",
+    "test:watch": "node --experimental-vm-modules node_modules/.bin/jest --watch"
   },
-  "keywords": [
-    "finance",
-    "dashboard",
-    "rbac",
-    "nodejs",
-    "express"
-  ],
+  "keywords": ["finance", "dashboard", "rbac", "nodejs", "express"],
   "author": "",
   "license": "ISC",
   "jest": {
     "testEnvironment": "node",
-    "setupFilesAfterFramework": [],
-    "globalSetup": null,
-    "globalTeardown": null
+    "transform": {}
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
