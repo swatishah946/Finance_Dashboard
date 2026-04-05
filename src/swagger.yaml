@@ -1,0 +1,146 @@
+openapi: 3.0.0
+info:
+  title: Finance Dashboard API
+  version: 1.0.0
+  description: API documentation for the Finance Dashboard backend assessment. Features JWT Auth, RBAC, and analytics.
+servers:
+  - url: http://localhost:5000/api
+    description: Development Server
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - bearerAuth: []
+paths:
+  /auth/login:
+    post:
+      summary: Authenticate user & get token
+      security: []
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  example: admin@example.com
+                password:
+                  type: string
+                  example: password123
+      responses:
+        '200':
+          description: Successful login
+        '400':
+          description: Validation Error
+
+  /auth/profile:
+    get:
+      summary: Get currently logged in user profile
+      tags:
+        - Authentication
+      responses:
+        '200':
+          description: Profile retrieved
+
+  /dashboard/summary:
+    get:
+      summary: Get dashboard summary totals
+      description: Requires 'read:dashboard' permission (Admin, Analyst, Viewer)
+      tags:
+        - Dashboard
+      responses:
+        '200':
+          description: Summary retrieved
+
+  /dashboard/categories:
+    get:
+      summary: Get expenses and income aggregated by category
+      tags:
+        - Dashboard
+      responses:
+        '200':
+          description: Category breakdown retrieved
+
+  /dashboard/trends:
+    get:
+      summary: Get monthly income vs expense trends
+      tags:
+        - Dashboard
+      responses:
+        '200':
+          description: Trends retrieved
+
+  /records:
+    get:
+      summary: Get all records
+      description: Admins see all. Owners see their own. Requires 'read:records' permission.
+      tags:
+        - Financial Records
+      responses:
+        '200':
+          description: A list of financial records
+    post:
+      summary: Create a new financial record
+      description: Requires 'create:records' permission (Admin, Analyst)
+      tags:
+        - Financial Records
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - amount
+                - type
+                - category
+              properties:
+                amount:
+                  type: number
+                  example: 300.50
+                type:
+                  type: string
+                  enum: [income, expense]
+                  example: expense
+                category:
+                  type: string
+                  example: software
+                description:
+                  type: string
+                  example: GitHub Subscription
+                date:
+                  type: string
+                  format: date
+      responses:
+        '201':
+          description: Record created successfully
+        '403':
+          description: Forbidden (Viewer role blocks this)
+
+  /records/{id}:
+    delete:
+      summary: Delete a financial record
+      description: Requires 'delete:records' permission (Admin only)
+      tags:
+        - Financial Records
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful deletion
+        '403':
+          description: Forbidden (Only admins can delete)

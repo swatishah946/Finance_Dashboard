@@ -3,6 +3,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 
 import authRoutes from './routes/auth.js';
+import userRoutes from './routes/users.js';
 import recordRoutes from './routes/records.js';
 import dashboardRoutes from './routes/dashboard.js';
 import errorHandler from './middleware/errorHandler.js';
@@ -41,6 +42,7 @@ import { apiLimiter } from './middleware/rateLimiter.js';
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/api/', apiLimiter);
 app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 app.use('/api/records', recordRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 
