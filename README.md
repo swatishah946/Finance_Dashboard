@@ -20,7 +20,7 @@ npm install
 ```
 
 **2. Configure Environment**
-Rename `.env.example` to `.env` (or create one):
+Create `.env` file:
 ```env
 NODE_ENV=development
 PORT=5000
@@ -64,6 +64,11 @@ npm run test:watch
 ### Authentication
 * `POST /api/auth/login` - Returns JWT Token
 * `GET /api/auth/profile` - Returns logged-in user details & permissions
+
+### User Management
+* `POST /api/users` - Create a new user (Admin only)
+* `GET /api/users` - View all users and their status (Admin only)
+* `PUT /api/users/password` - Change your current password (All authenticated users)
 
 ### Financial Records
 * `GET /api/records` - List records (Admins see all, others see own)

@@ -69,4 +69,32 @@ const updateFinancialRecordSchema = financialRecordSchema.fork(
   (schema) => schema.optional()
 );
 
-export { loginSchema, financialRecordSchema, updateFinancialRecordSchema };
+const createUserSchema = Joi.object({
+  name: Joi.string().trim().required().messages({
+    'string.empty': 'Name is required'
+  }),
+  email: Joi.string().email().lowercase().trim().required().messages({
+    'string.email': 'Please provide a valid email format',
+    'string.empty': 'Email is required',
+  }),
+  password: Joi.string().min(8).required().messages({
+    'string.min': 'Password must be at least 8 characters long',
+    'string.empty': 'Password is required'
+  }),
+  role: Joi.string().valid('admin', 'analyst', 'viewer').required().messages({
+    'any.only': 'Role must be admin, analyst, or viewer',
+    'any.required': 'Role assignment is required'
+  })
+}).options({ stripUnknown: true });
+
+const changePasswordSchema = Joi.object({
+  oldPassword: Joi.string().required().messages({
+    'string.empty': 'Old password is required'
+  }),
+  newPassword: Joi.string().min(8).required().messages({
+    'string.min': 'New password must be at least 8 characters long',
+    'string.empty': 'New password is required'
+  })
+}).options({ stripUnknown: true });
+
+export { loginSchema, financialRecordSchema, updateFinancialRecordSchema, createUserSchema, changePasswordSchema };
