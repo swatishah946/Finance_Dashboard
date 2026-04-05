@@ -39,6 +39,32 @@ class UserController {
       next(error);
     }
   }
+
+  async updateStatus(req, res, next) {
+    try {
+      const { id } = req.params;
+      const { status } = req.validatedBody;
+      
+      // Prevent an admin from deactivating themselves
+      if (parseInt(id) === req.user.id) {
+        return res.status(403).json({
+          success: false,
+          error: 'Forbidden',
+          message: 'You cannot change your own status'
+        });
+      }
+
+      const updatedUser = await userService.updateUserStatus(id, status);
+      
+      res.status(200).json({
+        success: true,
+        message: `User status changed to ${status}`,
+        data: updatedUser
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export default new UserController();

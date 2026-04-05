@@ -60,6 +60,25 @@ class UserService {
     await user.save();
     return true;
   }
+  async updateUserStatus(userId, status) {
+    const user = await User.findByPk(userId);
+    if (!user) {
+      const err = new Error('User not found');
+      err.status = 404;
+      err.isApplicationError = true;
+      throw err;
+    }
+
+    user.status = status;
+    await user.save();
+    
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      status: user.status
+    };
+  }
 }
 
 export default new UserService();

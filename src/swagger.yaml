@@ -121,6 +121,37 @@ paths:
         '200':
           description: Password updated successfully
 
+  /users/{id}/status:
+    put:
+      summary: Change a user's status (active/inactive)
+      description: Requires 'manage:users' permission (Admin only)
+      tags:
+        - User Management
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - status
+              properties:
+                status:
+                  type: string
+                  enum: [active, inactive, suspended]
+                  example: inactive
+      responses:
+        '200':
+          description: Status updated successfully
+        '403':
+          description: Forbidden (Cannot change own status)
+
   /dashboard/summary:
     get:
       summary: Get dashboard summary totals

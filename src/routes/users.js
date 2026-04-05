@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import userController from '../controllers/userController.js';
 import validate from '../middleware/validate.js';
-import { changePasswordSchema, createUserSchema } from '../validators/schemas.js';
+import { changePasswordSchema, createUserSchema, userStatusSchema } from '../validators/schemas.js';
 import authMiddleware from '../middleware/auth.js';
 import { permissionGuard } from '../middleware/roleGuard.js';
 
@@ -14,6 +14,11 @@ router.use(authMiddleware);
 // @desc    Change logged-in user's password
 // @access  Private (Any authenticated user)
 router.put('/password', validate(changePasswordSchema), userController.changePassword);
+
+// @route   PUT /api/users/:id/status
+// @desc    Change user status (active, inactive, suspended)
+// @access  Private (Requires 'manage:users' permission - Admin only)
+router.put('/:id/status', permissionGuard('manage:users'), validate(userStatusSchema), userController.updateStatus);
 
 // @route   POST /api/users
 // @desc    Create a new user

@@ -97,4 +97,11 @@ const changePasswordSchema = Joi.object({
   })
 }).options({ stripUnknown: true });
 
-export { loginSchema, financialRecordSchema, updateFinancialRecordSchema, createUserSchema, changePasswordSchema };
+const userStatusSchema = Joi.object({
+  status: Joi.string().valid('active', 'inactive', 'suspended').required().messages({
+    'any.only': 'Status must be active, inactive, or suspended',
+    'any.required': 'Status is required'
+  })
+}).options({ stripUnknown: true });
+
+export { loginSchema, financialRecordSchema, updateFinancialRecordSchema, createUserSchema, changePasswordSchema, userStatusSchema };
