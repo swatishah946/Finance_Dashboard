@@ -7,6 +7,18 @@ import recordRoutes from './routes/records.js';
 import dashboardRoutes from './routes/dashboard.js';
 import errorHandler from './middleware/errorHandler.js';
 
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yaml';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const file  = fs.readFileSync(path.join(__dirname, 'swagger.yaml'), 'utf8');
+const swaggerDocument = YAML.parse(file);
+
 const app = express();
 
 // Security and utility middleware
@@ -23,7 +35,11 @@ app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+import { apiLimiter } from './middleware/rateLimiter.js';
+
 // API Routes
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api/', apiLimiter);
 app.use('/api/auth', authRoutes);
 app.use('/api/records', recordRoutes);
 app.use('/api/dashboard', dashboardRoutes);

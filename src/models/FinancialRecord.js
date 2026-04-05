@@ -60,6 +60,7 @@ const FinancialRecord = sequelize.define('FinancialRecord', {
 }, {
   tableName: 'financial_records',
   timestamps: true,
+  paranoid: true,
   indexes: [
     { fields: ['user_id'] },
     { fields: ['date'] },
