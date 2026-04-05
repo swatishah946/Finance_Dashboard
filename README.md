@@ -35,6 +35,16 @@ JWT_SECRET=your_super_secret_key_here
 npm run dev
 ```
 
+## 🌐 Live Demo (Render)
+
+The API is deployed at:
+
+**https://finance-dashboard-7vyh.onrender.com**
+
+Interactive Swagger UI: **https://finance-dashboard-7vyh.onrender.com/api/docs**
+
+Use the seeded admin credentials (`admin@example.com` / `password123`) to obtain a JWT token and explore the endpoints.
+
 ## 🔐 Built-in Test Accounts
 On the first run, the database automatically seeds these roles and users (all passwords are `password123`):
 
