@@ -1,6 +1,9 @@
 {
   "name": "finance-dashboard-backend",
   "version": "1.0.0",
+  "engines": {
+    "node": "20.x"
+  },
   "description": "Finance dashboard backend with role-based access control",
   "main": "src/server.js",
   "type": "module",

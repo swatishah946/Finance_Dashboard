@@ -52,6 +52,75 @@ paths:
         '200':
           description: Profile retrieved
 
+  /users:
+    get:
+      summary: View all users and their status
+      description: Requires 'manage:users' permission (Admin only)
+      tags:
+        - User Management
+      responses:
+        '200':
+          description: A list of all users
+    post:
+      summary: Create a new user
+      description: Requires 'manage:users' permission (Admin only)
+      tags:
+        - User Management
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - email
+                - password
+                - role
+              properties:
+                name:
+                  type: string
+                  example: John Doe
+                email:
+                  type: string
+                  example: newuser@example.com
+                password:
+                  type: string
+                  example: securepassword123
+                role:
+                  type: string
+                  enum: [admin, analyst, viewer]
+                  example: analyst
+      responses:
+        '201':
+          description: User created successfully
+
+  /users/password:
+    put:
+      summary: Change your current password
+      description: Available to all authenticated users
+      tags:
+        - User Management
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - oldPassword
+                - newPassword
+              properties:
+                oldPassword:
+                  type: string
+                  example: password123
+                newPassword:
+                  type: string
+                  example: newSecurePassword2026
+      responses:
+        '200':
+          description: Password updated successfully
+
   /dashboard/summary:
     get:
       summary: Get dashboard summary totals

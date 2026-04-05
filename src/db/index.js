@@ -36,7 +36,7 @@ const seedDatabase = async () => {
   const roles = await Role.bulkCreate([
     { name: 'viewer',  permissions: JSON.stringify(['read:records', 'read:dashboard']) },
     { name: 'analyst', permissions: JSON.stringify(['read:records', 'read:dashboard', 'create:records', 'update:own_records']) },
-    { name: 'admin',   permissions: JSON.stringify(['read:records', 'create:records', 'update:records', 'delete:records', 'manage:users']) },
+    { name: 'admin',   permissions: JSON.stringify(['read:records', 'read:dashboard', 'create:records', 'update:records', 'delete:records', 'manage:users']) },
   ]);
 
   const bcrypt = await import('bcryptjs');
