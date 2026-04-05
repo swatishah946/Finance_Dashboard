@@ -4,6 +4,8 @@ info:
   version: 1.0.0
   description: API documentation for the Finance Dashboard backend assessment. Features JWT Auth, RBAC, and analytics.
 servers:
+  - url: https://finance-dashboard-7vyh.onrender.com/api
+    description: Production Server (Render)
   - url: http://localhost:5000/api
     description: Development Server
 components:
